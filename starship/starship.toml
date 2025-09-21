@@ -65,7 +65,6 @@ diverged = "⇕⇡${ahead_count}⇣${behind_count}"
 behind = "⇣${count}"
 conflicted = "="
 untracked = "?"
-stashed = "$"
 modified = "!"
 staged = "+"
 renamed = "»"
@@ -230,3 +229,4 @@ command = "echo truffle"
 when = '[ -f "truffle-config.js" ]'
 format = "via [🍫 $output]($style) "
 style = "brown bold"
+
