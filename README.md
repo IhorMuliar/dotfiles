@@ -38,3 +38,41 @@ brew install zsh sheldon starship mise fzf zoxide atuin yazi ripgrep eza bat fd 
 - **[pnpm](https://github.com/pnpm/pnpm)** - Fast package manager
 - **[ni](https://github.com/antfu-collective/ni)** - Use the right package manager
 - **[glow](https://github.com/charmbracelet/glow)** - Render markdown on the CLI
+
+## Installation
+
+```bash
+# Clone dotfiles
+git clone https://github.com/IhorMuliar/dotfiles.git ~/Projects/dotfiles
+
+# Create config directories
+mkdir -p ~/.config/{sheldon,mise}
+
+# Link configuration files
+ln -sf ~/Projects/dotfiles/.hushlogin ~/.hushlogin
+ln -sf ~/Projects/dotfiles/.zshrc ~/.zshrc
+ln -sf ~/Projects/dotfiles/.aliasesrc ~/.aliasesrc
+ln -sf ~/Projects/dotfiles/sheldon/plugins.toml ~/.config/sheldon/plugins.toml
+ln -sf ~/Projects/dotfiles/starship/starship.toml ~/.config/starship.toml
+ln -sf ~/Projects/dotfiles/mise/config.toml ~/.config/mise/config.toml
+
+# Create and customize environment variables in a separate untracked ~/.zshenv file
+touch ~/.zshenv
+# Edit ~/.zshenv to add your tokens
+
+# Install language environments
+mise install
+
+# Set up FZF
+$(brew --prefix)/opt/fzf/install --all --no-bash --no-fish
+
+# Restart your terminal
+```
+
+## Key Shortcuts
+
+- `z <dir>` - Jump to directory
+- `pj <project>` - Jump to ~/Projects
+- `y` - File manager
+- `Ctrl+R` - Search history (atuin)
+- `Ctrl+T` - Fuzzy find files (fzf)
