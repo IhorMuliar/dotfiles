@@ -1,0 +1,137 @@
+#!/bin/bash
+function json_escape () {
+    printf '%s' "$1" | python -c 'import json,sys; print(json.dumps(sys.stdin.read()))'
+}
+function add_alias() {
+    if [[ -z $1 || -z $2 || $# -gt 2 ]]; then
+        echo usage:
+        echo "\t\$$0 ll 'ls -l'"
+    else
+        echo "alias $1='$2'" >> $ALIASFILE
+        echo "alias ADDED to $ALIASFILE"
+        source $ALIASFILE
+    fi
+}
+function dex() {
+  if [[ -z $1 || $# -gt 1  ]]; then
+    echo usage:
+    echo "$0 container_name"
+  else
+  docker exec -it $1 bash
+  fi
+}
+function dcx() {
+  if [[ -z $1 || $# -gt 1  ]]; then
+    echo usage:
+    echo "$0 docker-compose service name"
+  else
+  docker-compose exec $1 bash
+  fi
+}
+alias aliases='vim ~/.aliasesrc'
+alias gs='git status'
+alias gcmm='git commit -m '
+alias ga='git add'
+alias gf='git flow'
+alias gp='git push'
+alias gpu='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
+alias gitclean='git gc --prune=now && git remote prune origin'
+alias gbd='git branch -d'
+alias gcd='git checkout develop'
+alias vimrc='vim ~/.vimrc'
+alias zshconfig="vim ~/.zshrc"
+alias dud='du -d 1 -h'
+alias duf='du -sh *'
+alias soa='source ~/.aliasesrc'
+alias kgp='kubectl get pods'
+alias kgd='kubectl get deployments'
+alias kgs='kubectl get services'
+alias duh='du -d 1 -h'
+alias duhs='du -d 1 -h | sort -h'
+alias sduh='sudo du -d 1 -h'
+alias dco='docker compose'
+alias esin='curl localhost:9200/_cat/indices'
+alias estemp='curl localhost:9200/_cat/templates'
+alias dps='docker ps'
+alias soz='source ~/.zshrc'
+alias tf='terraform'
+alias sshconf='vim ~/.ssh/config'
+alias clean-dns="sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache"
+alias cdns="sudo killall -HUP mDNSResponder"
+alias tg='terragrunt'
+alias mks='minikube start --memory 8192 --cpus 3'
+alias kg='kubectl get'
+alias kuba='kubectl apply -f'
+alias kubd='kubectl delete -f'
+alias kubc='kubectl create -f'
+alias kd='kubectl describe'
+alias kgi='kubectl get ingress'
+alias watch='watch -n 0.1'
+alias dkr='docker run -it --rm'
+alias htx='helm template . -x'
+alias ht='helm template'
+alias htc='helm template .'
+alias ma='make all'
+alias tfl='terraform fmt && tflint'
+alias gglm='git pull origin master'
+alias gprw="gh pr create --web"
+alias tfaa='terraform apply -auto-approve'
+alias tfia='terraform init && terraform apply'
+alias tfa='terraform apply'
+alias tfp='terraform plan'
+alias sprocs='sudo procs'
+alias hf=helmfile
+alias hfi='helmfile -i'
+alias hfa='helmfile apply -i'
+alias hfani='helmfile apply'
+alias hfd='helmfile diff'
+alias hfs='helmfile sync'
+alias p8='ping 8.8.8.8'
+alias sk='skaffold'
+
+
+# GCloud aliases - customize these for your environment
+# alias gcap="gcloud config configurations activate YOUR_CONFIG && gcloud auth application-default login"
+# alias gcam="gcloud config configurations activate default && gcloud auth application-default login"
+# alias gcurl='curl --header "Authorization: Bearer $(gcloud auth print-identity-token)"'
+# Git config aliases - add your own signing keys and email
+# alias gconf="git config --local user.signingkey 'YOUR_SSH_KEY' && git config --local user.email YOUR_EMAIL"
+
+# Helmfile aliases - customize for your environment
+# alias hflint='IMAGE_TAG=YOUR_TAG ENVIRONMENT=lint helmfile lint -e YOUR_ENV'
+# alias hflintprod='IMAGE_TAG=YOUR_TAG helmfile lint -e prod'
+alias cs='cursor'
+
+csp() {
+  local projects_dir=~/Projects
+
+  # If an argument is provided, try to open that project directly
+  if [[ -n "$1" ]]; then
+    if [[ -d "$projects_dir/$1" ]]; then
+      cursor "$projects_dir/$1"
+    else
+      echo "Project '$1' not found in $projects_dir"
+      # Optionally fall back to fuzzy search
+      # local selected_dir=$(find "$projects_dir" -mindepth 1 -maxdepth 1 -type d |
+      #   awk -F/ '{print $NF"\t"$0}' |
+      #   fzf --delimiter '\t' --with-nth=1 | cut -f2)
+      # if [[ -n "$selected_dir" ]]; then
+      #   cursor "$selected_dir"
+      # fi
+    fi
+  else
+    # No argument provided, use fuzzy finder
+    local selected_dir=$(find "$projects_dir" -mindepth 1 -maxdepth 1 -type d |
+      awk -F/ '{print $NF"\t"$0}' |
+      fzf --delimiter '\t' --with-nth=1 | cut -f2)
+    if [[ -n "$selected_dir" ]]; then
+      cursor "$selected_dir"
+    fi
+  fi
+}
+
+alias claudeconf="cs '$HOME/Library/Application Support/Claude/claude_desktop_config.json'"
+alias prun='pnpm run'
+alias ll='ls -l'
+alias l='ls -la'
+alias md='mkdir -p'
